@@ -1,0 +1,48 @@
+-- Many-to-many
+
+use relations;
+
+select*from students;
+select*from exams;
+select*from students_exam;
+
+create table students
+(
+student_id int primary key auto_increment,
+name nvarchar(50) not null
+);
+
+create table exams
+(
+exam_id int primary key auto_increment,
+name nvarchar(50) not null
+);
+
+create table students_exam
+(
+student_id int,
+exam_id int,
+constraint pk_students_exams primary key(student_id,exam_id),
+constraint fk_students_exams_students foreign key (student_id) references students(student_id),
+constraint fk_students_exams_exams foreign key (exam_id) references exams(exam_id)
+);
+
+insert into students(name)
+value ('Mila'),('Toni'),('Rom');
+
+insert into exams(name)
+value ('Spring MVC'),('Neo4j'),('Oracle 11g');
+
+insert into students_exam(student_id,exam_id)
+value (1,1),(2,2),(3,3);
+
+
+-- Self-reference
+
+create table teachers
+(
+teacher_id int primary key auto_increment,
+name nvarchar(50) not null,
+manager_id int, 
+constraint foreign key (manager_id) references teachers(teacher_id)
+)auto_increment=101;
